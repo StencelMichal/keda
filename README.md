@@ -13,6 +13,28 @@ KEDA (Kubernetes-based Event-Driven Autoscaling) to narzędzie open-source, któ
 
 
 ## 2. Teoretyczne podstawy / stos technologiczny
+Z dokumentacji KEDA:
+
+**What is KEDA:**
+
+KEDA is a Kubernetes-based Event Driven Autoscaler. With KEDA, you can drive the scaling of any container in Kubernetes based on the number of events needing to be processed.
+
+KEDA is a single-purpose and lightweight component that can be added into any Kubernetes cluster. KEDA works alongside standard Kubernetes components like the Horizontal Pod Autoscaler and can extend functionality without overwriting or duplication. With KEDA you can explicitly map the apps you want to use event-driven scale, with other apps continuing to function. This makes KEDA a flexible and safe option to run alongside any number of any other Kubernetes applications or frameworks.
+
+**How KEDA works:**
+
+KEDA performs three key roles within Kubernetes:
+
+* Agent — KEDA activates and deactivates Kubernetes Deployments to scale to and from zero on no events. This is one of the primary roles of the keda-operator container that runs when you install KEDA.
+* Metrics — KEDA acts as a Kubernetes metrics server that exposes rich event data like queue length or stream lag to the Horizontal Pod Autoscaler to drive scale out. It is up to the Deployment to consume the events directly from the source. This preserves rich event integration and enables gestures like completing or abandoning queue messages to work out of the box. The metric serving is the primary role of the keda-operator-metrics-apiserver container that runs when you install KEDA.
+* Admission Webhooks - Automatically validate resource changes to prevent misconfiguration and enforce best practices by using an admission controller. As an example, it will prevent multiple ScaledObjects to target the same scale target.
+Architecture
+
+The diagram below shows how KEDA works in conjunction with the Kubernetes Horizontal Pod Autoscaler, external event sources, and Kubernetes’ etcd data store:
+
+![image](https://user-images.githubusercontent.com/58272881/228941965-3594b59e-32f1-4a82-980d-96341a538418.png)
+
+
 ## 3. Opis koncepcji studium przypadku
 ## 4. Architektura rozwiązania
 ## 5. Opis konfiguracji środowiska
