@@ -35,7 +35,15 @@ The diagram below shows how KEDA works in conjunction with the Kubernetes Horizo
 ![image](https://user-images.githubusercontent.com/58272881/228941965-3594b59e-32f1-4a82-980d-96341a538418.png)
 
 
-## 3. Opis koncepcji studium przypadku
+## 3. Case study:
+* Wykorzystujemy Stawiamy Kafke
+* na kafce jest kolejka wiadomości
+* Node to czyta i sie blokuje przy duzym natezeniu
+* skrypt produkuje wiadomosci szybciej niz node czyta
+* wiadomosci zaczynaja sie kolejkowac
+* dochodzimy do tresholdu skalowania
+* apliakcja skaluje sie horyzontalnie
+
 ## 4. Architektura rozwiązania
 ## 5. Opis konfiguracji środowiska
 ## 6. Metoda instalacji
