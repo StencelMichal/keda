@@ -1,25 +1,25 @@
-# Project documentation 
+# Dokumentacja projektu 
 ### **KEDA-14**
-Authors:
+Autorzy:
 * Michał Stencel
 * Michał Skwara
 * Mikołaj Bul
 * Adam Niemiec
 
-Year: 2023 Group: 4
+Rok: 2023 Grupa: 4
 
-## 1. Introduction
-## 2. Theoretical background/technology stack
-## 3. Case study concept description
-## 4. Solution architecture
-## 5. Environment configuration description
-## 6. Installation method
-## 7. How to reproduce - step by step
-### 7.1. Infrastructure as Code approach
-## 8. Demo deployment steps:
-### 8.1. Configuration set-up 
-### 8.2. Data preparation
-### 8.3. Execution procedure
-### 8.4. Results presentation
-## 9. Summary – conclusions
-## 10. References
+## 1. Wprowadzenie
+## 2. Teoretyczne podstawy / stos technologiczny
+## 3. Opis koncepcji studium przypadku
+## 4. Architektura rozwiązania
+## 5. Opis konfiguracji środowiska
+## 6. Metoda instalacji
+## 7. Jak powtórzyć - krok po kroku
+### 7.1. Podejście Infrastructure as Code
+## 8. Krok po kroku wdrożenie demo:
+### 8.1. Konfiguracja ustawień 
+### 8.2. Przygotowanie danych
+### 8.3. Procedura wykonania
+### 8.4. Prezentacja wyników
+## 9. Podsumowanie - wnioski
+## 10. Bibliografia
