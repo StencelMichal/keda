@@ -36,16 +36,40 @@ The diagram below shows how KEDA works in conjunction with the Kubernetes Horizo
 
 
 ## 3. Case study:
+W ramach demo planujemy porównać 2 metody skalowania horyzontalnego aplikacji umieszczonej w klastrze Kubernetesa:
+* na podstawie długości kolejki oczekujących wiadomości w Apache Kafka
+* na podstawie zużycia CPU w kontenerach z aplikacją
+
+Aplikacja będzie działać w 2 wariantach:
+* po przeczytaniu wiadomości wywoła funkcję sleep
+* po przeczytaniu wiadomości wykona faktyczne obliczenia, w celu zwiększenia zużycia procesora
+
+Plan demo:
 * Wykorzystujemy Kafke, na której znaduje się kolejka wiadomości
-* Aplikacja w Node czyta wiadomości z Kafki i blokuje się przy ich dużym natężeniu
+* Aplikacja w Node czyta wiadomości z Kafki i zachowuje się wedle ustalonego wariantu
 * Wiadomości produkowane są szybciej niż aplikacja jest w stanie je przetworzyć
-* Ilość wiadomości w kolejce przekracza ustalony próg
-* Przy wykorzystaniu skryptu KEDA aplikacja zaczyna skalować się horyzontalnie 
+* Ilość wiadomości w kolejce lub % zużycia procesora przekracza ustalony próg
+* KEDA skaluje aplikację horyzontalnie 
 
 ## 4. Architektura rozwiązania
-![keda(2)](https://user-images.githubusercontent.com/30327956/233847780-b697263c-df22-4c32-86bc-0a0c12240224.png)
+W projekcie wykorzystane zostaną następujące technologie:
+* KEDA
+* Apache Kafka
+* Zookeeper
+* Node
+* Docker
+* Kubernetes
+
+| *Schemat architektury projektu* |
+|:--:| 
+| ![keda(2)](https://user-images.githubusercontent.com/30327956/233847780-b697263c-df22-4c32-86bc-0a0c12240224.png) | 
 
 ## 5. Opis konfiguracji środowiska
+Konfiguracja środowiska będzie wymagać określenia następujących parametrów:  
+* długość kolejki w Kafce
+* ilość wiadomości tworzonych na sekundę w producencie
+* tryb obciążenia sleep lub faktyczne wykonywanie obliczeń
+
 ## 6. Metoda instalacji
 ## 7. Jak powtórzyć - krok po kroku
 ### 7.1. Podejście Infrastructure as Code
