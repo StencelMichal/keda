@@ -43,6 +43,8 @@ The diagram below shows how KEDA works in conjunction with the Kubernetes Horizo
 * Przy wykorzystaniu skryptu KEDA aplikacja zaczyna skalować się horyzontalnie 
 
 ## 4. Architektura rozwiązania
+![keda(2)](https://user-images.githubusercontent.com/30327956/233847780-b697263c-df22-4c32-86bc-0a0c12240224.png)
+
 ## 5. Opis konfiguracji środowiska
 ## 6. Metoda instalacji
 ## 7. Jak powtórzyć - krok po kroku
