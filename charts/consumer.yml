@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: super-consumer
+  name: super-consumer
+  namespace: kreda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: super-consumer
+  template:
+    metadata:
+      labels:
+        app: super-consumer
+    spec:
+      hostname: super-consumer
+      containers:
+      - env:
+        image: super-consumer
+        imagePullPolicy: Never
+        name: super-consumer
+        ports:
+          - containerPort: 8080
