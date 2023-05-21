@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: kafka-scaledobject
+  namespace: kreda
+spec:
+  scaleTargetRef:
+    name: super-consumer
+  pollingInterval: 30
+  triggers:
+  - type: kafka
+    metadata:
+      bootstrapServers: 172.17.0.1:9092
+      consumerGroup: super-group-id       # Make sure that this consumer group name is the same one as the one that is consuming topics
+      topic: test-topic
+      # Optional
+      lagThreshold: "5"
