@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/StencelMichal/keda#readme",
   "dependencies": {
+    "express": "^4.18.2",
     "kafkajs": "^2.2.4"
   }
 }
