@@ -4,7 +4,7 @@ metadata:
   labels:
     app: zookeeper-service
   name: zookeeper-service
-  namespace: kreda
+  namespace: keda
 spec:
   type: ClusterIP
   ports:
@@ -20,7 +20,7 @@ metadata:
   labels:
     app: zookeeper
   name: zookeeper
-  namespace: kreda
+  namespace: keda
 spec:
   replicas: 1
   selector:

@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: kafka-scaledobject
-  namespace: kreda
+  namespace: keda
 spec:
   scaleTargetRef:
     name: super-consumer
@@ -10,7 +10,7 @@ spec:
   triggers:
   - type: kafka
     metadata:
-      bootstrapServers: 172.17.0.1:9092
+      bootstrapServers: kafka-service:9092
       consumerGroup: super-group-id       # Make sure that this consumer group name is the same one as the one that is consuming topics
       topic: test-topic
       # Optional

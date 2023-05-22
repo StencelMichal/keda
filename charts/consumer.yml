@@ -4,7 +4,7 @@ metadata:
   labels:
     app: super-consumer
   name: super-consumer
-  namespace: kreda
+  namespace: keda
 spec:
   replicas: 1
   selector:

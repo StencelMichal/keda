@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-    name: "kreda"
+    name: "keda"
     labels:
-        name: "kreda"
+        name: "keda"
 
