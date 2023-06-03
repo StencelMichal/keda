@@ -1,0 +1,16 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: cpu-scaledobject
+  namespace: keda
+spec:
+  scaleTargetRef:
+    name: super-consumer
+  pollingInterval: 30
+  triggers:
+    - type: cpu
+      metricType: Utilization # Allowed types are 'Utilization' or 'AverageValue'
+      metadata:
+        type: Utilization # Deprecated in favor of trigger.metricType; allowed types are 'Utilization' or 'AverageValue'
+        value: "60"
+        containerName: "super-consumer" # Optional. You can use this to target a specific container in a pod

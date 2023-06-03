@@ -1,18 +1,20 @@
 const { Kafka } = require('kafkajs');
-const express = require('express');
-const app = express();
-const port = 3000;
+// const express = require('express');
+// const app = express();
+// const port = 3000;
 
-let isSleep = false;
+const scaler = process.env.SCALER;
+// let isSleep = false;
+const fibonacci_length = 30;
 
-app.get('/config/toggle-workload', (req, res) => {
-  isSleep = !isSleep;
-  res.send(`New config is: Sleep = ${isSleep}`);
-});
-
-app.listen(port, () => {
-  console.log(`Super app listening on port ${port}`);
-});
+// app.get('/config/toggle-workload', (req, res) => {
+//   isSleep = !isSleep;
+//   res.send(`New config is: Sleep = ${isSleep}`);
+// });
+//
+// app.listen(port, () => {
+//   console.log(`Super app listening on port ${port}`);
+// });
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -28,6 +30,16 @@ const kafka = new Kafka({
 
 const consumer = kafka.consumer({ groupId });
 
+function fibonacci(n) {
+  if (n === 1) {
+    return 0;
+  } else if (n === 2) {
+    return 1;
+  } else {
+    return fibonacci(n - 1) + fibonacci(n - 1);
+  }
+}
+
 const run = async () => {
   // Consuming
   await consumer.connect();
@@ -41,10 +53,11 @@ const run = async () => {
         offset: message.offset,
         value: message.value.toString(),
       });
-      if (isSleep) {
+      if (scaler === 'kafka') {
         await sleep(10 * 1000);
       } else {
-        console.log('Some calculation (Not implemented!)');
+        console.log('Calculating fibonacci...');
+        console.log(`Result: ${fibonacci(fibonacci_length)}`);
       }
     },
   });

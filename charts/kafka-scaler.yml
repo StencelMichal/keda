@@ -15,3 +15,4 @@ spec:
       topic: test-topic
       # Optional
       lagThreshold: "5"
+  minReplicaCount:  1

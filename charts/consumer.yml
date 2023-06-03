@@ -19,7 +19,12 @@ spec:
       containers:
       - env:
         image: super-consumer
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         name: super-consumer
         ports:
           - containerPort: 8080
+#        resources:
+#          requests:
+#            memory: "128Mi"
+#            cpu: "500m"
+
