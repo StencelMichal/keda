@@ -5,7 +5,7 @@ eval $(minikube docker-env)
 
 scaler=${INPUT_SCALER:-kafka}
 
-docker build -t --build-arg="scaler=$scaler" super-consumer -f ./consumer/Dockerfile .
+docker build --build-arg="scaler=$scaler" -t super-consumer -f ./consumer/Dockerfile .
 docker build -t producer -f ./producer/Dockerfile .
 
 kubectl apply -f ./charts/keda-namespace.yml

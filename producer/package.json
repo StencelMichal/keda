@@ -1,0 +1,23 @@
+{
+  "name": "keda",
+  "version": "1.0.0",
+  "description": "Autorzy:\r * Michał Stencel\r * Michał Skwara\r * Mikołaj Bul\r * Adam Niemiec",
+  "main": "super-consumer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StencelMichal/keda.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StencelMichal/keda/issues"
+  },
+  "homepage": "https://github.com/StencelMichal/keda#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "kafkajs": "^2.2.4"
+  }
+}

@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 
 COPY ./producer /usr/src/app
 
-RUN npm install
+RUN ["npm", "install"]
 
-CMD [ "node", "producer.js" ]
+CMD ["node", "producer.js"]
