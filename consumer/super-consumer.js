@@ -1,34 +1,27 @@
-const { Kafka } = require('kafkajs');
-// const express = require('express');
-// const app = express();
-// const port = 3000;
+const { Kafka } = require("kafkajs");
+const express = require("express");
+const app = express();
+const port = 3000;
 
-const scaler = process.env.SCALER;
-// let isSleep = false;
+let isSleep = true;
 const fibonacci_length = 30;
-
-// app.get('/config/toggle-workload', (req, res) => {
-//   isSleep = !isSleep;
-//   res.send(`New config is: Sleep = ${isSleep}`);
-// });
-//
-// app.listen(port, () => {
-//   console.log(`Super app listening on port ${port}`);
-// });
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const topic = 'test-topic';
-const groupId = 'super-group-id';
+const topic = "test-topic";
+const groupId = "super-group-id";
+const configTopic = "config-topic";
+const configGroupId = String(new Date().getTime());
 
 const kafka = new Kafka({
-  clientId: 'super-kafka-consumer',
-  brokers: ['kafka-service:9092'],
+  clientId: "super-kafka-consumer",
+  brokers: ["kafka-service:9092"],
 });
 
 const consumer = kafka.consumer({ groupId });
+const configConsumer = kafka.consumer({ groupId: configGroupId });
 
 function fibonacci(n) {
   if (n === 1) {
@@ -45,20 +38,32 @@ const run = async () => {
   await consumer.connect();
   await consumer.subscribe({ topic, fromBeginning: true });
 
-  await consumer.run({
+  await configConsumer.connect();
+  await configConsumer.subscribe({ topic: configTopic, fromBeginning: true });
+
+  consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      console.log('Message data: ', {
+      console.log("Message data: ", {
         topic,
         partition,
         offset: message.offset,
         value: message.value.toString(),
       });
-      if (scaler === 'kafka') {
+      if (isSleep) {
         await sleep(10 * 1000);
       } else {
-        console.log('Calculating fibonacci...');
+        console.log("Calculating fibonacci...");
         console.log(`Result: ${fibonacci(fibonacci_length)}`);
       }
+    },
+  });
+
+  await configConsumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      isSleep = JSON.parse(message.value).isSleep;
+      console.log("New config: ", {
+        isSleep,
+      });
     },
   });
 };
