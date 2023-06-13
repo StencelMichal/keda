@@ -42,12 +42,12 @@ W ramach demo planujemy porównać 2 metody skalowania horyzontalnego aplikacji 
 
 Aplikacja będzie działać w 2 wariantach:
 * po przeczytaniu wiadomości wywoła funkcję sleep
-* po przeczytaniu wiadomości wykona faktyczne obliczenia, w celu zwiększenia zużycia procesora
+* po przeczytaniu wiadomości wykona faktyczne obliczenia(rekurencyjne obliczanie ciągu Fibonacciego), w celu zwiększenia zużycia procesora
 
 Plan demo:
 * Wykorzystujemy Kafke, na której znaduje się kolejka wiadomości
-* Aplikacja w Node czyta wiadomości z Kafki i zachowuje się wedle ustalonego wariantu
-* Wiadomości produkowane są szybciej niż aplikacja jest w stanie je przetworzyć
+* Aplikacja konsumenta napisana w Node czyta wiadomości z Kafki i zachowuje się wedle ustalonego wariantu
+* Wiadomości produkowane są przez aplikację producenta - kolejka zapełnia się szybciej niż konsument jest w stanie przetworzyć wiadomości
 * Ilość wiadomości w kolejce lub % zużycia procesora przekracza ustalony próg
 * KEDA skaluje aplikację horyzontalnie 
 
@@ -60,6 +60,7 @@ W projekcie wykorzystane zostaną następujące technologie:
 * Docker
 * Kubernetes
 
+Ich użycie konieczne będzie do stworzenia zaplanowanej architektury rozwiązania
 | *Schemat architektury projektu* |
 |:--:| 
 | ![keda(2)](https://user-images.githubusercontent.com/30327956/233847780-b697263c-df22-4c32-86bc-0a0c12240224.png) | 
@@ -71,8 +72,28 @@ Konfiguracja środowiska będzie wymagać określenia następujących parametró
 * tryb obciążenia sleep lub faktyczne wykonywanie obliczeń
 
 ## 6. Metoda instalacji
+Do lokalnego uruchomienia projektu wymagana jest instalacja następujacych narzędzi:
+* [Docker](https://www.docker.com/)
+* [minikube](https://minikube.sigs.k8s.io/docs/)
+* [Kubernetes kubectl](https://kubernetes.io/docs/tasks/tools/)
+
+W przypadku podejścia IaaS wystarczy jedynie `kubectl`, używany do komunikacji ze zdalnym klastrem Kubernetesa.
+
 ## 7. Jak powtórzyć - krok po kroku
-### 7.1. Podejście Infrastructure as Code
+### 7.1. Uruchomienie lokalne
+1. Należy uruchomić lokalny klaster Kubernetesa poprzez wywołanie komendy `minikube start`. Komenda ta uruchomi kontener Dockerowy na podstawie obrazu z Kubernetesem. 
+Jeśli wszystko przebiegło pomyślnie, powinna zostać wyświetlona wiadomość o treści: <br />
+`Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default`.
+
+
+2. Upewniamy się, że kontener jest poprawnie uruchomiony, np. komendą `docker ps` - nasz kontener powinien mieć status `Up`.
+
+
+3. Uruchamiamy skrypt setup.sh znajdujący się w głownym katalogu projektu.
+
+### 7.2. Podejście Infrastructure as Code
+
+
 ## 8. Krok po kroku wdrożenie demo:
 ### 8.1. Konfiguracja ustawień 
 ### 8.2. Przygotowanie danych
@@ -80,3 +101,5 @@ Konfiguracja środowiska będzie wymagać określenia następujących parametró
 ### 8.4. Prezentacja wyników
 ## 9. Podsumowanie - wnioski
 ## 10. Bibliografia
+* [KEDA](https://keda.sh/docs/2.10/) - dokumentacja
+* [AWS Elastic Kubernetes Service](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) - dokumentacja
