@@ -11,6 +11,5 @@ spec:
     - type: cpu
       metricType: Utilization # Allowed types are 'Utilization' or 'AverageValue'
       metadata:
-        type: Utilization # Deprecated in favor of trigger.metricType; allowed types are 'Utilization' or 'AverageValue'
         value: "60"
-        containerName: "super-consumer" # Optional. You can use this to target a specific container in a pod
+  cooldownPeriod: 15

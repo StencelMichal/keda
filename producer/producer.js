@@ -5,6 +5,7 @@ const app = express();
 const port = 3000;
 const consumerTopic = "test-topic";
 const configTopic = "config-topic";
+let produceInterval = null;
 
 let intervalMs = 3000;
 let isSleep = true;
@@ -16,6 +17,8 @@ const kafka = new Kafka({
 
 app.get("/config/setMessageInterval/:interval", (req, res) => {
   intervalMs = Number(req.params.interval) * 1000;
+  clearInterval(produceInterval);
+  produceInterval = setInterval(produceMessage, intervalMs);
   res.send(`New config is: IntervalMs = ${intervalMs}`);
 });
 
@@ -56,7 +59,7 @@ async function produceMessage(
 
 const run = async () => {
   await producer.connect();
-  setInterval(produceMessage, intervalMs);
+  produceInterval = setInterval(produceMessage, intervalMs);
 };
 
 run().catch((e) => console.error(`[Super producer] ${e.message}`, e));

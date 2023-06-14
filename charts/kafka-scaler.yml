@@ -16,3 +16,4 @@ spec:
       # Optional
       lagThreshold: "5"
   minReplicaCount:  1
+  cooldownPeriod: 15
