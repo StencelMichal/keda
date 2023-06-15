@@ -97,32 +97,117 @@ Działaniem aplikacji sterujemy dzięki wysyłaniu reqestów na 2 enpointy:
 Skrypt `switch-to-cpu.sh` zmienia tryb skalowania z długości kolejki w Kafce na zużycie CPU.
 
 ## 8. Krok po kroku wdrożenie demo:
-### 8.1. Procedura wykonania
-#### 8.1.1. Skalowanie po Kafce ze sleepem
+#### 8.1. Skalowanie po Kafce ze sleepem
 1. Uruchomić setup.sh.
+
+
+| *Stan początkowy* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/212e2fcb-b0f2-4de2-b021-e3203961f76c) | 
+
+
 2. Odpalić komendy `kubectl exec svc/kafka-service -it -- bash` oraz `watch -n 1 kafka-consumer-groups.sh --bootstrap-server kafka-service:9092 --describe --group super-group-id` - uruchamiamy monitoring laga na partycjach topicu
 3. Zaobserwować liczbę konsumentów na dashboardzie i lag.
+
+
+| *Monitoring partycji w Kafce* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/acb038d1-3bfb-43b0-a9a9-39f712bcb2f1) | 
+
+
 4. Zmniejszyć message_interval w producencie - wysyłamy request na `/config/setMessageInterval/:interval`.
+
+
+| *Wysłanie requestu zmniejszenia messagge_interval* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/567fe678-1bda-4a67-bec7-f18ba397a54e) | 
+
+
 5. Zauważyć, że lag przekracza ustalony treshold.
+
+
+| *Lag jest większy niż treshold* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/b0db236c-ab6e-417c-8dcd-6b576dea122f) | 
+
+  
 6. Zaobserwować zwiększoną liczbę konsumentów.
+
+
+| *Ilość konsumentów wzrasta - skalowanie w górę* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/00a2dcb0-f2a7-494b-b4a9-675fbae3bc90) | 
+
+
 7. W monitoringu laga zauważyć zmianę przypisania partycji topicu.
 8. Lag powinien maleć.
 9. Zwiększyć message_interval
+
+
+| *Wysłanie requestu zwiększenia messagge_interval* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/62ebcfaa-336d-40fb-bf0f-7baa348dd1b8) | 
+
+
 10. Zaobserwować skalowanie w dół po odczekaniu cooldownPeriod.
-#### 8.1.2. Skalowanie po Kafce z obliczeniami
+
+
+| *Zmniejszenie ilości konsumentów - skalowanie w dół* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/31796029-05cf-4d92-a0d5-ed5578ce8410) | 
+
+#### 8.2. Skalowanie po Kafce z obliczeniami
 1. Zmieniamy tryb pracy konsumentów requestem `/config/toggle-workload`.
+
+
+| *Zmiana trybu pracy* |
+|:--:| 
+|   ![image](https://github.com/StencelMichal/keda/assets/72918433/c2712440-2595-43ff-9000-5cd6ff8b8258) | 
+
+
 2. Powtarzamy punkty 3.-10.
-3. Obserwujemy takie same efekty. 
-#### 8.1.3. Skalowanie po CPU z obliczeniami
+3. Obserwujemy takie same efekty.
+
+
+| *Zmniejszenie ilości konsumentów - skalowanie w dół* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/3abef9e6-9613-4a3b-b30c-6eeeb96db32a) | 
+
+
+#### 8.3. Skalowanie po CPU z obliczeniami
 1. Zmieniamy tryb skalowania uruchamiająć skrypt `switch-to-cpu.sh`.
+
+| *Stan początkowy* |
+|:--:| 
+|   ![image](https://github.com/StencelMichal/keda/assets/72918433/a5cd78bc-51b5-42ec-aa2a-00afe0702a27) | 
+
 2. Powtarzamy punkty 3.-10.
 3. Obserwujemy takie same efekty - jednak są one nieco wolniejsze.
-#### 8.1.4. Skalowanie po CPU ze sleepem
+
+
+| *Przeskalowanie w górę* |
+|:--:| 
+|  ![image](https://github.com/StencelMichal/keda/assets/72918433/545359de-7a2b-41b8-9965-1307efb6747e) |
+
+
+#### 8.4. Skalowanie po CPU ze sleepem
 1. Zmieniamy tryb pracy konsumentów requestem `/config/toggle-workload`.
+
+
+| *Stan początkowy* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/e390890a-89ed-438c-87fd-5238dc2dad2e) | 
+
+  
 2. Powtarzamy punkty 3.-10.
 3. Skalowanie nie działa.
 
-### 8.4. Prezentacja wyników
+
+| *Brak skalowania po zmniejszeniu message_interval* |
+|:--:| 
+| ![image](https://github.com/StencelMichal/keda/assets/72918433/6510c8ff-4c58-4b0d-8fff-6b2f4a5e3b72) | 
+
+
 ## 9. Podsumowanie - wnioski
 KEDA pozwala na wykorzystanie bardziej zaawansowanych sposobów skalowania, których brakuje w standardowym skalowaniu Kubernetes'a.
 Narzędzie wprowadza elastyczność w skalowaniu aplikacji na podstawie zdarzeń, takich jak rozmiar kolejki, wywołania API, czy odczyty z kolejek komunikatów. W naszym projekcie przedstawiliśmy potencjalną przewagę skalowania z metryką wyrażoną przez długość kolejki Kafka nad standardowym skalowaniem po obciążeniu CPU. Poprzez zastosowanie custom'owego skalowania jesteśmy w stanie zoptymalizować wykorzystanie zasobów za pomocą dostowania liczby instancji aplikacji.
